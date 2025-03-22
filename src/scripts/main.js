@@ -27,19 +27,17 @@ const secondPromise = new Promise((resolve, reject) => {
   });
 });
 const thirdPromise = new Promise((resolve, reject) => {
-  let firstButtonPressed = false;
+  let leftPressed = false;
+  let rightPressed = false;
 
   document.addEventListener('mousedown', (e) => {
     if (e.buttons === 1) {
-      firstButtonPressed = 'left';
+      leftPressed = true;
     } else if (e.buttons === 2) {
-      firstButtonPressed = 'right';
+      rightPressed = true;
     }
 
-    if (
-      (e.buttons === 1 && firstButtonPressed === 'right') ||
-      (e.buttons === 2 && firstButtonPressed === 'left')
-    ) {
+    if (leftPressed && rightPressed) {
       resolve('Third promise was resolved');
     }
   });
@@ -56,15 +54,10 @@ function promises() {
       notification.classList.add('error');
     });
 
-  secondPromise
-    .then((result) => {
-      notification.textContent = result;
-      notification.classList.add('success');
-    })
-    .catch((error) => {
-      notification.textContent = error.message;
-      notification.classList.add('error');
-    });
+  secondPromise.then((result) => {
+    notification.textContent = result;
+    notification.classList.add('success');
+  });
 
   thirdPromise
     .then((result) => {
